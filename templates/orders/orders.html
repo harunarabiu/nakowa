@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block body %}
+
+            <div class="container">
+                <div class="row">
+                {% if empty %}
+
+                    <h2 style="text-align: center;">  You Have not Made Any Orders</h2>
+
+                {% else %}
+                                        <div class="col-md-8">
+                        {% for order in orders %}
+                                            {% for item in order.cart_set.all %}
+                        <div class="well">
+                            <div class="row cart-row">
+                                <div class="col-md-4">
+                                    <div class="cart-img-section">
+                                        <img src="{{ item.total }}" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="cart-txt-section">
+                                        <ul>
+                                            <li><strong>Description:</strong> {{ order.order_id }}</li>
+                                            <li><strong>Store:</strong> Hmax Gadget</li>
+                                            <li><strong>Price:</strong> $220.99</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="cart-qty-section">
+                                        <strong>Quantity:</strong> <span class="badge">3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                            {% endfor %}
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'index' %}" class="btn btn-primary pull-left btn-shop"><i class="fa fa-cart-plus"></i> Continue Shopping</a>
+                                <a href="{% url 'checkout' %}" class="btn btn-success pull-right btn-shop"><i class="fa fa-sign-in"></i> Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="well">
+                            <div class="cat-head">
+                                <h3 class="text-center">Cart Summary</h3>
+                            </div>
+                            <h4 class="text-center">Total: N{{ cart.total|intcomma }}</h4>
+                            <h4 class="text-center">Total-Items: {% if not request.session.items_total  %} 0 {% else  %} {{ request.session.items_total }} {% endif %}</h4>
+                            <a href="{% url 'checkout' %}" class="btn btn-success btn-block"><i class="fa fa-sign-in"></i> Proceed to Checkout</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+                </div>
+            </div>
+
+{% endblock %}

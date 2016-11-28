@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block body %}
+            <div class="container">
+                <div class="row">
+                {% if empty %}
+
+                    <h2 style="text-align: center;"> {{ message }}</h2>
+
+                {% else %}
+                    <div class="col-md-8">
+                        {% for item in cart.cartitem_set.all %}
+                        <div class="well well-cart">
+                            <div class="row cart-row">
+                                <div class="col-md-2">
+                                    <div class="cart-img-section">
+                                        <img src="{{ item.product.item_image }}" alt="{{ item.product }}" width="100" height="100"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="cart-txt-section">
+                                        <ul>
+                                            <li><strong>Description:</strong>{{ item.product }}</li>
+                                            <li><strong>Store:</strong> {% if item.product.item_store == None  %} {{ item.product.item_user }} {% else  %} {{ item.product.item_store }} {% endif %}</li>
+                                            <li><strong>Price:</strong> N{{ item.product.item_price|intcomma }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                     <div class="col-md-3">
+                                        <div class="cart-qty-section">
+
+                                                <label><strong>Qty: {{ item.quantity }}</strong></label>
+
+                                        </div>
+
+                                        <a href="{% url 'remove_from_cart' id=item.id %}" class="btn btn-danger btn-block"><i class="fa fa-times"></i> Remove</a>
+                                    </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'index' %}" class="btn btn-primary pull-left btn-shop"><i class="fa fa-cart-plus"></i> Continue Shopping</a>
+                                <a href="{% url 'checkout' %}" class="btn btn-success pull-right btn-shop"><i class="fa fa-sign-in"></i> Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="well">
+                            <div class="cat-head">
+                                <h3 class="text-center">Cart Summary</h3>
+                            </div>
+                            <h4 class="text-center">Total: N{{ cart.total|intcomma }}</h4>
+                            <h4 class="text-center">Total-Items: {% if not request.session.items_total  %} 0 {% else  %} {{ request.session.items_total }} {% endif %}</h4>
+                            <a href="{% url 'checkout' %}" class="btn btn-success btn-block"><i class="fa fa-sign-in"></i> Proceed to Checkout</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+                </div>
+            </div>
+
+{% endblock %}

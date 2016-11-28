@@ -1,0 +1,99 @@
+{% extends 'market/base.html' %}
+{% load humanize %}
+{% load staticfiles %}
+    {% block title %}
+                Profile
+    {% endblock %}
+            {% block top-menu %}
+                <!--navbar-->
+                <div class="row no-container">
+                    <nav class="navbar navbar-top">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                                    Menu
+                                </button>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbar-collapse">
+                                <ul class="nav navbar-nav">
+                                          <li class="active"><a href="{% url "index" %}">Home</a></li>
+                                          <li><a href="{% url "StoreAdd" %}">Open Shop</a></li>
+                                      </ul>
+                                <ul class="nav navbar-nav pull-right cate">
+                                    <li><a href="{% url "ItemAdd" %}" class=""><i class="fa fa-plus">&nbsp;Post Ads</i></a></li>&nbsp;
+                                     <li><a href="{% url "Logout" %}" class=""><i class="fa fa-sign-out">&nbsp;Sign out</i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+            {% endblock %}
+
+
+        {% block body %}
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 style="text-align: center;">{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                        <div class="col-md-6" id="pro-img">
+                            <img src="{% static 'market/images/user_03.png' %}" alt="" class="img-thumbnail"/>
+                        </div>
+                        <div class="col-md-6" id="info">
+                            <ul>
+                                <li><strong>Email: </strong>{{ profile.user.email }}</li>
+                                <li><strong>Location: </strong>{{ profile.state  }}</li>
+                                <li><strong>Phone Number: </strong>{{ profile.phone  }}</li>
+                                 <li><strong>Address: </strong>{{ profile.address  }}</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-6" id="shop-colunm">
+                                <h4>Shops</h4>
+                                {% for store in stores %}
+                                    <div class="media" id="mediabody">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <!--<i class="fa fa-users text-primary fa-5x"></i>-->
+                                                <img class="media-object" src="{% static 'market/images/user_03.png' %}" alt=""/>
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">{{ store.store_name }} </h5>
+                                            <a href="{% url 'Store' pk=store.pk %}" class="btn btn-success btn-xs">Visit Shop</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            <a href="#">View All Stores</a>
+                            </div>
+                              <hr>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 postedads">
+                        <h1 class="page-header">Posted Ads</h1>
+                        <div class="row">
+                            {% for item in profile_items %}
+                                <a href="{% url 'ItemDetail' pk=item.pk %}">
+                                    <div class="thumbnail col-md-2">
+                                          <img src="{{ item.item_image }}" alt=""/>
+                                          <div class="caption">
+                                              <h5 class="pull-right">N{{ item.item_price|intcomma }}</h5>
+                                              <h5>{{ item.item_title }}</h5>
+                                          </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}

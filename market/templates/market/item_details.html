@@ -1,0 +1,81 @@
+{% extends 'market/base.html' %}
+{% load humanize %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+                <div class="col-sm-8" style="background-color:#fff; margin-top: 50px;">
+                    <div class="page-header">
+                        <h2>{{ item.item_title }}</h2>
+                        <b style="font-family: fontawesome, open sans;">&#xf017; Posted on {{ item.item_createDate|date:"d M, Y"  }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b style="font-family: fontawesome, open sans;">&#xf041; {{ item.item_state }}, {{ item.item_location }}</b>
+                        <b style="font-family: fontawesome, open sans;" class="pull-right">&#xf10b; 2400views</b>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <img style="padding-left: 30px;" src="{{ item.item_image }}" alt=""/>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="active"><a href="#desc" role="tab" data-toggle="tab">Description</a></li>
+                                <li><a href="#reviews" role="tab" data-toggle="tab">Reviews</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="desc">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            {{ item.item_description }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane active" id="reviews">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+                </div>
+                <div class="col-sm-4" style="margin-top:50px;">
+                    <div class="col-sm-12" style="background-color:#f0ad4e; text-align: center; font-weight: 700; color: #fff;">
+                        <h1>N{{ item.item_price|intcomma }}</h1>
+                    </div>
+                    <div class="col-sm-12" style="background-color:#fff; font-size: 18px; font-family: open sans, fontawesome;">
+                        <b style="font-family: fontawesome, open sans; font-size: 50px;">&#xf007;</b>
+                        <a href="#">{{ item.item_user.first_name }} {{ item.item_user.last_name }}</a>
+                        <p>Verified!</p>
+                        <b style="font-weight: 100; font-size: 14px;">Last seen on {{ item.item_user.last_login|date:"M d, Y"  }}</b><br><br>
+                            <form role="form" method="GET" action="{% url 'update_cart' pk=item.pk %}">
+                                <div class="form-group">
+                                    <label for="code">Quantity: </label>
+                                    <input name="qty" type="text" value="1" size="4" class="qtyinput"/>
+                                </div>
+
+                                <input type="submit" value="Add to Cart" class="btn btn-warning" style="font-family: fontawesome, open sans; font-size: 18px; margin-left: 50px; margin-bottom: 10px;"/>
+
+                            </form>
+{#                            <a href="{% url 'update_cart' pk=item.pk %}" class="btn btn-warning" role="button" style="font-family: fontawesome, open sans; font-size: 18px; margin-left: 50px; margin-bottom: 10px;">Add to Cart</a>#}
+
+
+                    </div>
+
+                    <div class="col-sm-12 col-sm-offset-0" style="background-color:#fff;">
+                        <button style="font-family:fontawesome,open sans; font-size: 18px; margin-top: 20px;" class="btn btn-success btn-block">&#xf003; Reply to thid ads</button>
+                    </div>
+                    <div class="col-sm-12 col-sm-offset-0" style="background-color:#fff;">
+                        <button style="font-family:fontawesome,open sans; font-size: 18px; margin-top: 40px;" class="btn btn-warning btn-block">&#xf05a; Something wrong?</button>
+                    </div>
+                     <div class="col-sm-12 col-sm-offset-0" style="background-color:#fff; height: 20px;">
+
+                    </div>
+                </div>
+            </div>
+</div>
+
+
+{% endblock %}
